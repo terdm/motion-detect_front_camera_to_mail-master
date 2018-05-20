@@ -1,9 +1,12 @@
 package com.diter.motiondetection;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Environment;
 import android.os.Vibrator;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +22,34 @@ public class MainActivity extends AppCompatActivity {
     private MotionDetector motionDetector;
 
     private Context mContext;
+    IntentFilter filter1;
 
+    /*private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String mess;
+            mess = intent.getStringExtra("EXTRA_MESSAGE").toUpperCase();
+            Log.d("MyTag","reciedved broadcast message  " + mess);
+            if (mess.replace("STOP","") != mess)
+            { Log.d("MyTag","before stop MD");
+                finish();
+                System.exit(0);}
+        }
+    };
+    */
 
+    private final MyMDReceiver myReceiver = new MyMDReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String mess;
+            mess = intent.getStringExtra("EXTRA_MESSAGE").toUpperCase();
+            Log.d("MyTag","reciedved broadcast message  " + mess);
+            if (mess.replace("STOP","") != mess)
+            { Log.d("MyTag","before stop MD");
+                finish();
+                System.exit(0);}
+        }
+    };
 
 public void onClickStart(View v) {
     //byte[] img = new byte[] {};
@@ -55,12 +84,37 @@ public void onClickStart(View v) {
     }
 }
     @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        Log.d("MyTag", "on destroy ");
+        if(myReceiver!= null)
+            unregisterReceiver(myReceiver);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MyTag","onCreate starts");
 
-
-
-
+        // здесь нужен прослушиватель
+        /*LocalBroadcastManager.getInstance(this).registerReceiver(
+                new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String mess;
+                         mess = intent.getStringExtra("EXTRA_MESSAGE").toUpperCase();
+                        Log.d("MyTag","reciedved broadcast message  " + mess);
+                        if (mess.replace("STOP","") != mess)
+                        { Log.d("MyTag","before stop MD");
+                            finish();
+                         System.exit(0);}
+                    }
+                }, new IntentFilter("MDC")
+        );
+*/
+        filter1 = new IntentFilter("com.diter.motiondetection");
+        registerReceiver(myReceiver, filter1);
 
         setContentView(R.layout.activity_main);
 

@@ -33,6 +33,13 @@
             android:name=".SendMailIntentService">
 
         </service>
+        <receiver android:name="MyMDReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.diter.motiondetection" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

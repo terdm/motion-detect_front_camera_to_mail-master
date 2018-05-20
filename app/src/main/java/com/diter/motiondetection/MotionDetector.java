@@ -322,14 +322,14 @@ public class MotionDetector {
         mContext = context;
         mSurface = previewSurface;
         try {
-              pwd = getStringFromFile(Environment.getExternalStorageDirectory().toString() + "/pwd" );
+              pwd = getStringFromFile(Environment.getExternalStorageDirectory().toString() + "/MD/pwd.txt" );
               pwd = pwd.replace("\n", "");
               Log.d("MyTag", "pwd " + pwd);}
         catch (Exception ex)
         {Log.d("MyTag", "pwd exception " + ex.toString());
         }
         try {
-            emailFrom = getStringFromFile(Environment.getExternalStorageDirectory().toString() + "/emailfrom" );
+            emailFrom = getStringFromFile(Environment.getExternalStorageDirectory().toString() + "/MD/ef.txt" );
             emailFrom = emailFrom.replace("\n", "");
             Log.d("MyTag", "emailFrom " + emailFrom);}
         catch (Exception ex)
@@ -337,7 +337,7 @@ public class MotionDetector {
         }
 
         try {
-            emailTo = getStringFromFile(Environment.getExternalStorageDirectory().toString() + "/emailto" );
+            emailTo = getStringFromFile(Environment.getExternalStorageDirectory().toString() + "/MD/et.txt" );
             emailTo = emailTo.replace("\n", "");
             Log.d("MyTag", "emailTo " + emailTo);}
         catch (Exception ex)
