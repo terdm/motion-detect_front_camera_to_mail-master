@@ -44,10 +44,24 @@ public class MainActivity extends AppCompatActivity {
             String mess;
             mess = intent.getStringExtra("EXTRA_MESSAGE").toUpperCase();
             Log.d("MyTag","reciedved broadcast message  " + mess);
-            if (mess.replace("STOP","") != mess)
+            /*if (mess.replace("STOP","") != mess)
             { Log.d("MyTag","before stop MD");
                 finish();
-                System.exit(0);}
+                System.exit(0);}*/
+            switch (mess)
+            {
+                case "Stop":
+                {
+                    Log.d("MyTag","before stop MD");
+                    finish();
+                    System.exit(0);
+                    break;
+                }
+                case "Log":
+                {
+
+                }
+            }
         }
     };
 
