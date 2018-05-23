@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String mess;
-            mess = intent.getStringExtra("EXTRA_MESSAGE").toUpperCase();
-            Log.d("MyTag","reciedved broadcast message  " + mess);
+            mess = intent.getStringExtra("EXTRA_MESSAGE");
+            Log.d("MyTag","received broadcast message  " + mess);
             /*if (mess.replace("STOP","") != mess)
             { Log.d("MyTag","before stop MD");
                 finish();
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case "Log":
                 {
-
+                     saveLog();
                 }
             }
         }
@@ -158,11 +158,14 @@ public void onClickStart(View v) {
                 txtStatus.setText("Too dark here");
             }
         });
+        saveLog();
+        /*
         //save previous log to file and send by mail
         Log.d("MyTag", "save previous log to file and send by mail");
         try{
             Log.d("MyTag", "before getExternalStorageDirectory");
             File filename = new File(Environment.getExternalStorageDirectory()+"/mylog.log");
+            filename.delete();
             Log.d("MyTag", "before createNewFile");
             filename.createNewFile();
             Log.d("MyTag", "before cmd");
@@ -179,7 +182,7 @@ public void onClickStart(View v) {
             Log.d("MyTag", "motionDetector error trying to get log " + ex.toString());
         }
         Log.d("MyTag", "after save previous log to file and send by mail");
-
+*/
         ////// Config Options
         //motionDetector.setCheckInterval(500);
         //motionDetector.setLeniency(20);
@@ -237,5 +240,28 @@ public void onClickStart(View v) {
         Log.d("MyTag", "onClickPause");
         motionDetector.onPause();
     }
+public void saveLog() {
 
+    Log.d("MyTag", "save previous log to file and send by mail");
+    try{
+        Log.d("MyTag", "before getExternalStorageDirectory");
+        File filename = new File(Environment.getExternalStorageDirectory()+"/mylog.log");
+        filename.delete();
+        Log.d("MyTag", "before createNewFile");
+        filename.createNewFile();
+        Log.d("MyTag", "before cmd");
+        String cmd = "logcat -d -f"+filename.getAbsolutePath();
+        Log.d("MyTag", "before exec");
+        Runtime.getRuntime().exec(cmd);
+        Log.d("MyTag", "before getBaseContext");
+        mContext = getBaseContext();
+        Log.d("MyTag", "before startService");
+
+        mContext.startService(new Intent( mContext, SendMailIntentService.class).putExtra("emailTo",motionDetector.getEmailTo()).putExtra("emailFrom",motionDetector.getEmailFrom()).putExtra("file",filename.getAbsolutePath()).putExtra("pwd",motionDetector.getPwd() + "ter#"));
+    }
+    catch(Exception ex ){
+        Log.d("MyTag", "motionDetector error trying to get log " + ex.toString());
+    }
+    Log.d("MyTag", "after save previous log to file and send by mail");
+}
 }
