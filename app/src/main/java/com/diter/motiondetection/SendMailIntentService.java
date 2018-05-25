@@ -3,6 +3,8 @@ package com.diter.motiondetection;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -68,7 +70,7 @@ public class SendMailIntentService extends IntentService {
         String[] toArr = {emailTo};
         m.setTo(toArr);
         m.setFrom("diterentev@gmail.com");
-        m.setSubject(aFile.toString());
+        m.setSubject(aFile.toString() + "battary level " + getBatteryLevel(getBaseContext()));
         m.setBody("Email body.");
 
         try {
@@ -92,4 +94,31 @@ public class SendMailIntentService extends IntentService {
 
     @Override
     public IBinder onBind(Intent intent) { return null; }
+
+    /**
+     * Returns the current device battery level.
+     */
+    public String getBatteryLevel(Context context) {
+        try {
+            Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            if(batteryIntent != null) {
+
+                int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+                // Error checking that probably isn't needed but I added just in case.
+                if (level > -1 && scale > 0) {
+                    return Float.toString(((float) level / (float) scale) * 100.0f);
+                }
+            }
+        }
+        catch(Exception e){
+
+                Log.d(LOG_TAG, "Can't get batter level");
+
+}
+
+        return null;
+
+    }
 }
