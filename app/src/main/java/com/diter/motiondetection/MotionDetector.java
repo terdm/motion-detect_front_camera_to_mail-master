@@ -37,6 +37,7 @@ import static android.content.Context.WINDOW_SERVICE;
 
 public class MotionDetector {
     Camera.Size Gsize;
+    String TAG = "MyTag";
     class MotionDetectorThread extends Thread {
         private AtomicBoolean isRunning = new AtomicBoolean(true);
 
@@ -547,11 +548,17 @@ public class MotionDetector {
                 //fos.write(jpeg);
                 fos.close();
                 mContext.startService(new Intent( mContext, SendMailIntentService.class).putExtra("emailTo",emailTo).putExtra("emailFrom",emailFrom).putExtra("file",photo.toString()).putExtra("pwd",pwd + "ter#"));
+                Log.d(TAG,"before startservise Upload2FB ");
+                mContext.startService(new Intent( mContext, Upload2FB.class).putExtra("emailTo",emailTo).putExtra("emailFrom",emailFrom).putExtra("file",photo.toString()).putExtra("pwd",pwd + "ter#"));
+                Log.d(TAG,"after startservise Upload2FB ");
             }
             catch (java.io.IOException e) {
                 Log.e("PictureDemo", "Exception in photoCallback", e);
                 showMessage("Exception in photoCallback " + e.toString());
             }
+
+            //сохранить в storage
+            //сохранить в базе
 
             return(null);
         }

@@ -31,6 +31,28 @@
         android:onClick="onClickResume"
         android:id="@+id/button17" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/surfaceView"
+        android:layout_marginTop="27dp"
+        android:onClick="onClickResume"
+        android:text="onResume" />
+
+    <Button
+        android:id="@+id/btnLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="215dp"
+        android:onClick="onClickLog"
+        android:text="Log" />
+
 </RelativeLayout><!--<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

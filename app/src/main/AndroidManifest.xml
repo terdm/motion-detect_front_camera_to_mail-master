@@ -33,6 +33,11 @@
             android:name=".SendMailIntentService">
 
         </service>
+        <service
+            android:name=".Upload2FB">
+
+        </service>
+
         <receiver android:name="MyMDReceiver"
             android:enabled="true"
             android:exported="true">
