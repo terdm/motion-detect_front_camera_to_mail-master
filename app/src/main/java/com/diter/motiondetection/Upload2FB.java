@@ -169,7 +169,7 @@ public class Upload2FB extends IntentService {
                     //String newsId = news.getUid();
                     DatabaseReference mRef = database.getReference().child("News").push();
                     mRef.setValue(news);
-                    myLogging("After push to database logUri " + logUri);
+                    myLogging("U2FB.172 After push to database logUri " + logUri);
                 }
             });
 
